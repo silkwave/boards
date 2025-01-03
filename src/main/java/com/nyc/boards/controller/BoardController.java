@@ -4,18 +4,21 @@ import com.nyc.boards.dto.BoardDTO;
 import com.nyc.boards.dto.BoardFileDTO;
 import com.nyc.boards.service.BoardService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.annotation.Validated;
 
 import java.io.IOException;
 import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j  // Add this for logging
 public class BoardController {
     private final BoardService boardService;
 
@@ -25,11 +28,10 @@ public class BoardController {
     }
 
     @PostMapping("/save")
-    public String save(BoardDTO boardDTO, @RequestParam(required = false) Long boardId) throws IOException {
-        if (boardId != null) {
-            boardDTO.setId(boardId);
-        }
+    public String save(@Validated BoardDTO boardDTO) throws IOException {
+
         boardService.save(boardDTO);
+        log.info("Board saved with title: {}", boardDTO.getBoardTitle());
         return "redirect:/list";
     }
 
@@ -40,13 +42,13 @@ public class BoardController {
         return "list";
     }
 
-    // /10, /1
     @GetMapping("/{id}")
     public String findById(@PathVariable("id") Long id, Model model) {
-        // 조회수 처리
-        boardService.updateHits(id);
-        // 상세내용 가져옴
         BoardDTO boardDTO = boardService.findById(id);
+        if (boardDTO == null) {
+            return "redirect:/list";  // Handle board not found
+        }
+        boardService.updateHits(id);
         model.addAttribute("board", boardDTO);
         if (boardDTO.getFileAttached() == 1) {
             List<BoardFileDTO> boardFileDTOList = boardService.findFile(id);
@@ -63,11 +65,9 @@ public class BoardController {
     }
 
     @PostMapping("/update/{id}")
-    public String update(BoardDTO boardDTO, Model model) {
+    public String update(BoardDTO boardDTO) {
         boardService.update(boardDTO);
-        BoardDTO dto = boardService.findById(boardDTO.getId());
-        model.addAttribute("board", dto);
-        return "detail";
+        return "redirect:/" + boardDTO.getId();  // Redirect to the updated board's detail
     }
 
     @GetMapping("/delete/{id}")
@@ -75,16 +75,4 @@ public class BoardController {
         boardService.delete(id);
         return "redirect:/list";
     }
-
 }
-
-
-
-
-
-
-
-
-
-
-

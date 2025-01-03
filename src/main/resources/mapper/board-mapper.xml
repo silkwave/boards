@@ -5,12 +5,10 @@
 
     <!-- Insert a board -->
 
-    <insert id="save" parameterType="com.nyc.boards.dto.BoardDTO" useGeneratedKeys="true" keyProperty="id">
+    <insert id="save" parameterType="com.nyc.boards.dto.BoardDTO">
         INSERT INTO board_table (boardTitle, boardWriter, boardPass, boardContents, fileAttached)
         VALUES (#{boardTitle}, #{boardWriter}, #{boardPass}, #{boardContents}, #{fileAttached})
     </insert>
-
-
 
     <!-- Select all boards -->
     <select id="findAll" resultType="com.nyc.boards.dto.BoardDTO">
@@ -28,10 +26,11 @@
     <!-- Find board by ID -->
     <select id="findById" parameterType="Long" resultType="com.nyc.boards.dto.BoardDTO">
         SELECT id, boardTitle, boardWriter, boardPass, boardContents, boardHits, 
-               TO_CHAR(createdAt, 'YYYY-MM-DD HH24:MI:SS') AS createdAt, fileAttached 
+            TO_CHAR(createdAt, 'YYYY-MM-DD HH24:MI:SS') AS createdAt, fileAttached 
         FROM board_table 
         WHERE id = #{id}
     </select>
+
 
     <!-- Update board details -->
     <update id="update" parameterType="com.nyc.boards.dto.BoardDTO">
