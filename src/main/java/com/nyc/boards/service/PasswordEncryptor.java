@@ -9,4 +9,5 @@ public class PasswordEncryptor {
         String encryptedPassword = textEncryptor.encrypt("docker123");
         System.out.println("Encrypted Password: " + encryptedPassword);
     }
+    
 }
