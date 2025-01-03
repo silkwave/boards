@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Board List</title>
     <style>
         body {
             display: grid;
@@ -25,7 +25,9 @@
             justify-items: center;
         }
         table {
-            width: 100%;
+            width: 80%;
+            max-width: 1000px;
+            margin: auto;
             border-collapse: collapse;
         }
         table, tr, td, th {
@@ -34,13 +36,18 @@
         th, td {
             padding: 10px;
         }
+        th {
+            background-color: #f1f1f1;
+        }
         a {
+            display: inline-block;
             text-decoration: none;
             color: #007bff;
             padding: 0.5rem 1rem;
             border: 1px solid #007bff;
             border-radius: 0.25rem;
             transition: background-color 0.3s, color 0.3s;
+            text-align: center;
         }
         a:hover {
             background-color: #007bff;
@@ -69,6 +76,9 @@
                 <td th:text="${board.boardWriter}"></td>
                 <td th:text="${board.createdAt}"></td>
                 <td th:text="${board.boardHits}"></td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(boardList)}">
+                <td colspan="5" style="text-align: center;">No boards available</td>
             </tr>
         </table>
     </main>

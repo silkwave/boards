@@ -44,8 +44,14 @@ public class BoardController {
 
     @GetMapping("/{id}")
     public String findById(@PathVariable("id") Long id, Model model) {
+        if (id == null || id <= 0) {
+            log.error("Invalid board ID: {}", id);
+            return "redirect:/list";  // Handle invalid ID
+        }
+    
         BoardDTO boardDTO = boardService.findById(id);
         if (boardDTO == null) {
+            log.error("Board with id {} not found", id);
             return "redirect:/list";  // Handle board not found
         }
         boardService.updateHits(id);
