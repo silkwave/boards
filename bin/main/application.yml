@@ -36,4 +36,9 @@ logging:
     '[org.apache.ibatis]': DEBUG
     '[org.springframework.jdbc.core]': DEBUG
     '[org.mybatis.spring.SqlSessionFactoryBean]': DEBUG
+    '[com.github.ulisesbocchio.jasypt]': DEBUG
 
+jasypt:
+  encryptor:
+    password: mySecretKey
+    algorithm: PBEWithHMACSHA512AndAES_256
