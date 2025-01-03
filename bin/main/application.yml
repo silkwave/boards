@@ -1,0 +1,39 @@
+# 서버 설정
+server:
+  port: 8080
+  servlet:
+    session:
+      timeout: 30m
+
+
+# 데이터베이스 설정
+spring:
+  application:
+    name: boards
+  datasource:
+    driver-class-name: oracle.jdbc.OracleDriver
+    url: jdbc:oracle:thin:@//127.0.0.1:1521/ORCL
+    username: docker
+    password: docker123
+    hikari:
+      connection-timeout: 15000
+      maximum-pool-size: 10
+      data-source-properties:
+        '[oracle.net.disableOob]': true
+
+# MyBatis 설정
+mybatis:
+  mapper-locations: classpath:/mapper/**/*.xml
+  type-aliases-package: com.nyc.boards.repository
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+
+# 로깅 설정
+logging:
+  level:
+    '[com.nyc.boards]': DEBUG
+    '[org.apache.ibatis]': DEBUG
+    '[org.springframework.jdbc.core]': DEBUG
+    '[org.mybatis.spring.SqlSessionFactoryBean]': DEBUG
+

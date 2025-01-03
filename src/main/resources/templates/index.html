@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body {
+            display: grid;
+            grid-template-rows: auto 1fr;
+            height: 100vh;
+            margin: 0;
+        }
+        header, main {
+            padding: 1rem;
+        }
+        header {
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+        }
+        main {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            align-items: start;
+            justify-items: center;
+        }
+        a {
+            text-decoration: none;
+            color: #007bff;
+            padding: 0.5rem 1rem;
+            border: 1px solid #007bff;
+            border-radius: 0.25rem;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        a:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h2>Hello Spring Boot!!</h2>
+    </header>
+    <main>
+        <a href="/save">글작성</a>
+        <a href="/list">글목록</a>
+    </main>
+</body>
+
+</html>

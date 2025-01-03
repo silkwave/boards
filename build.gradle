@@ -1,0 +1,59 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.4.1'
+	id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.nyc'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+    // Thymeleaf template engine
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    
+    // Web functionality (Spring MVC, embedded Tomcat)
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    
+    // MyBatis Spring Boot integration
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.4'
+    
+    // Lombok for reducing boilerplate code
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    
+    // Development tools for automatic restarts, etc.
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    
+    // Oracle JDBC driver for connecting to Oracle DB
+    runtimeOnly 'com.oracle.database.jdbc:ojdbc11'
+    
+    // Spring Boot starter test for unit and integration testing
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    
+    // MyBatis Spring Boot test starter for MyBatis related tests
+    testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.4'
+    
+    // JUnit 5 test runtime support
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+
+tasks.named('test') {
+	useJUnitPlatform()
+}

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body {
+            display: grid;
+            grid-template-rows: auto 1fr;
+            height: 100vh;
+            margin: 0;
+        }
+        header, main {
+            padding: 1rem;
+        }
+        header {
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+        }
+        main {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            align-items: start;
+            justify-items: center;
+        }
+        form {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.5rem;
+            width: 100%;
+            max-width: 600px;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+        }
+        input[type="button"] {
+            padding: 0.5rem 1rem;
+            border: 1px solid #007bff;
+            border-radius: 0.25rem;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        input[type="button"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h2>게시글 수정</h2>
+    </header>
+    <main>
+        <form th:action="@{|/update/${board.id}|}" method="post" name="updateForm">
+            <input type="hidden" name="id" th:value="${board.id}">
+            <label>writer: <input type="text" name="boardWriter" th:value="${board.boardWriter}" readonly></label>
+            <label>title: <input type="text" name="boardTitle" th:value="${board.boardTitle}"></label>
+            <label>pass: <input type="text" name="boardPass" id="board-pass"></label>
+            <label>contents: <textarea name="boardContents" cols="30" rows="10" th:text="${board.boardContents}"></textarea></label>
+            <input type="button" value="수정" onclick="board_update()">
+        </form>
+    </main>
+</body>
+<script th:inline="javascript">
+    const board_update = () => {
+        const boardPass = document.getElementById("board-pass").value;
+        const passDB = "[[${board.boardPass}]]";
+        if (boardPass == passDB) {
+            updateForm.submit();
+        } else {
+            alert("비밀번호가 틀립니다!!");
+        }
+    }
+</script>
+</html>

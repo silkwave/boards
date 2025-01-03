@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body {
+            display: grid;
+            grid-template-rows: auto 1fr;
+            height: 100vh;
+            margin: 0;
+        }
+        header, main {
+            padding: 1rem;
+        }
+        header {
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+        }
+        main {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            align-items: start;
+            justify-items: center;
+        }
+        form {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.5rem;
+            width: 100%;
+            max-width: 600px;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        input[type="text"], textarea, input[type="file"] {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+        }
+        input[type="submit"] {
+            padding: 0.5rem 1rem;
+            border: 1px solid #007bff;
+            border-radius: 0.25rem;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h2>글 작성</h2>
+    </header>
+    <main>
+        <form action="/save" method="post" enctype="multipart/form-data">
+            <label>제목: <input type="text" name="boardTitle"></label>
+            <label>작성자: <input type="text" name="boardWriter"></label>
+            <label>비밀번호: <input type="text" name="boardPass"></label>
+            <label>내용: <textarea name="boardContents" cols="30" rows="10"></textarea></label>
+            <label>파일: <input type="file" name="boardFile" multiple></label>
+            <input type="submit" value="작성">
+        </form>
+    </main>
+</body>
+</html>
