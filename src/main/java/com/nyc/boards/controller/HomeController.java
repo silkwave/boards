@@ -10,4 +10,5 @@ public class HomeController {
         System.out.println("HomeController.index");
         return "index";
     } 
+    
 }

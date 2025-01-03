@@ -1,74 +1,69 @@
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '3.4.1'
-	id 'io.spring.dependency-management' version '1.1.7'
+    id 'java'
+    id 'org.springframework.boot' version '3.4.1'
+    id 'io.spring.dependency-management' version '1.1.7'
 }
 
 group = 'com.nyc'
 version = '0.0.1-SNAPSHOT'
 
 java {
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(17)
-	}
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17) // Java 17 버전 사용
+    }
 }
 
 configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
+    compileOnly {
+        extendsFrom annotationProcessor // 컴파일 전용 구성으로 annotationProcessor 확장
+    }
 }
 
 repositories {
-	mavenCentral()
-	maven {
-		url 'https://maven.oracle.com' // Oracle Maven Repository
-		credentials {
-			username = 'your-oracle-username' // Oracle 계정
-			password = 'your-oracle-password' // Oracle 계정 비밀번호
-		}
-	}
+    mavenCentral() // Maven 중앙 저장소
+    maven { url 'https://repo.spring.io/release' } // Spring Maven 저장소 추가
 }
 
 dependencies {
-    // Thymeleaf template engine
+    // Thymeleaf 템플릿 엔진
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     
-    // Web functionality (Spring MVC, embedded Tomcat)
+    // 웹 기능 (Spring MVC, 내장 Tomcat)
     implementation 'org.springframework.boot:spring-boot-starter-web'
     
-    // MyBatis Spring Boot integration
+    // MyBatis Spring Boot 통합
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.4'
 
+    // Jasypt Spring Boot 통합 (암호화 기능)
     implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5'
     
-    // Lombok for reducing boilerplate code
+    // Lombok (보일러플레이트 코드 감소)
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     
-    // Development tools for automatic restarts, etc.
+    // 자동 재시작을 위한 Spring Boot 개발 도구
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     
-    // Oracle JDBC driver for connecting to Oracle DB
+    // Oracle DB 연결을 위한 JDBC 드라이버
     runtimeOnly 'com.oracle.database.jdbc:ojdbc11'
     
-    // Spring Boot starter test for unit and integration testing
+    // 단위 및 통합 테스트를 위한 Spring Boot 테스트 스타터
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     
-    // MyBatis Spring Boot test starter for MyBatis related tests
+    // MyBatis 관련 테스트를 위한 MyBatis Spring Boot 테스트 스타터
     testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.4'
     
-    // JUnit 5 test runtime support
+    // JUnit 5 테스트 런타임 지원
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+    useJUnitPlatform() // JUnit Platform 사용
 }
 
 tasks.withType(JavaCompile) {
-    options.compilerArgs << "-parameters"
+    options.compilerArgs << "-parameters" // 컴파일러에 -parameters 옵션 추가
     doLast {
-        println "Compiler arguments: ${options.compilerArgs}"
+        println "Compiler arguments: ${options.compilerArgs}" // 컴파일러 인수 출력
     }
 }

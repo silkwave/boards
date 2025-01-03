@@ -53,6 +53,9 @@
         input[type="submit"]:hover {
             background-color: #0056b3;
         }
+        textarea {
+            margin-bottom: 1rem;
+        }
     </style>
 </head>
 <body>
@@ -61,11 +64,11 @@
     </header>
     <main>
         <form action="/save" method="post" enctype="multipart/form-data">
-            <label>제목: <input type="text" name="boardTitle"></label>
-            <label>작성자: <input type="text" name="boardWriter"></label>
-            <label>비밀번호: <input type="text" name="boardPass"></label>
-            <label>내용: <textarea name="boardContents" cols="30" rows="10"></textarea></label>
-            <label>파일: <input type="file" name="boardFile" multiple></label>
+            <label for="boardTitle">제목: <input type="text" id="boardTitle" name="boardTitle" required></label>
+            <label for="boardWriter">작성자: <input type="text" id="boardWriter" name="boardWriter" required></label>
+            <label for="boardPass">비밀번호: <input type="password" id="boardPass" name="boardPass" required></label>
+            <label for="boardContents">내용: <textarea id="boardContents" name="boardContents" cols="30" rows="10" required></textarea></label>
+            <label for="boardFile">파일: <input type="file" id="boardFile" name="boardFile" multiple></label>
             <input type="submit" value="작성">
         </form>
     </main>

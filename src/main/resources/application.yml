@@ -1,53 +1,45 @@
-# 서버 설정
 server:
-  port: 8080
+  port: 8080  # 서버 포트 설정
   servlet:
     session:
-      timeout: 30m
+      timeout: 30m  # 세션 타임아웃 30분
 
-
-# 데이터베이스 설정
 spring:
   application:
-    name: boards
+    name: boards  # 애플리케이션 이름 설정
   servlet:
     multipart:
-      location: /home/silkwave/apps/boards/spring_upload_files
-      max-file-size: 10MB           # Maximum file size per upload
-      max-request-size: 10MB        # Maximum size of the entire request
-      file-size-threshold: 2KB      # Size threshold after which files are written to disk
+      location: /home/silkwave/apps/boards/spring_upload_files  # 파일 업로드 위치 설정
+      max-file-size: 10MB           # 최대 파일 크기 (각 파일)
+      max-request-size: 10MB        # 전체 요청 크기 제한
+      file-size-threshold: 2KB      # 디스크에 파일을 쓸지 여부를 결정하는 임계값
   datasource:
-    driver-class-name: oracle.jdbc.OracleDriver
-    url: jdbc:oracle:thin:@//127.0.0.1:1521/ORCL
-    username: docker
-    password: ENC(e0RkhL8qEaVissFWEH9ihubfgS9ZLUwm0n6pLKG7r0e1NX5bb/JioOaf/6v2D7OZ)
+    driver-class-name: oracle.jdbc.OracleDriver  # Oracle JDBC 드라이버 클래스 이름
+    url: jdbc:oracle:thin:@//127.0.0.1:1521/ORCL  # Oracle DB 연결 URL
+    username: docker  # 데이터베이스 사용자명
+    password: ENC(e0RkhL8qEaVissFWEH9ihubfgS9ZLUwm0n6pLKG7r0e1NX5bb/JioOaf/6v2D7OZ)  # 암호화된 비밀번호
     hikari:
-      connection-timeout: 15000
-      maximum-pool-size: 10
+      connection-timeout: 15000  # 커넥션 타임아웃 (밀리초)
+      maximum-pool-size: 10  # 최대 커넥션 풀 크기
       data-source-properties:
-        '[oracle.net.disableOob]': true
+        '[oracle.net.disableOob]': true  # Oracle OOB(Out-of-Band) 사용 안 함
 
-# MyBatis 설정
 mybatis:
-  mapper-locations: classpath:/mapper/**/*.xml
-  type-aliases-package: com.nyc.boards.repository
+  mapper-locations: classpath:/mapper/**/*.xml  # MyBatis 매퍼 파일 경로 설정
+  type-aliases-package: com.nyc.boards.repository  # MyBatis 타입 별칭 패키지
   configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl  # MyBatis 로그 출력 설정 (콘솔 출력)
+    map-underscore-to-camel-case: true  # DB 컬럼명과 객체 필드명 매핑 시 언더스코어를 카멜 케이스로 변환
 
-# 로깅 설정
 logging:
   level:
-    '[com.nyc.boards]': DEBUG
-    '[org.apache.ibatis]': DEBUG
-    '[org.springframework.jdbc.core]': DEBUG
-    '[org.mybatis.spring.SqlSessionFactoryBean]': DEBUG
-    '[com.github.ulisesbocchio.jasypt]': DEBUG
+    '[com.nyc.boards]': DEBUG  # boards 패키지 로그 레벨 설정
+    '[org.apache.ibatis]': DEBUG  # MyBatis 관련 로그 레벨 설정
+    '[org.springframework.jdbc.core]': DEBUG  # JDBC 관련 로그 레벨 설정
+    '[org.mybatis.spring.SqlSessionFactoryBean]': DEBUG  # SqlSessionFactoryBean 관련 로그 레벨 설정
+    '[com.github.ulisesbocchio.jasypt]': DEBUG  # Jasypt 암호화 라이브러리 로그 레벨 설정
 
 jasypt:
   encryptor:
-    password: mySecretKey
-    algorithm: PBEWithHMACSHA512AndAES_256
-
-# 파일 업로드 설정
-
+    password: mySecretKey  # 암호화에 사용할 키
+    algorithm: PBEWithHMACSHA512AndAES_256  # 암호화 알고리즘
