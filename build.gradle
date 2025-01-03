@@ -21,6 +21,13 @@ configurations {
 
 repositories {
 	mavenCentral()
+	maven {
+		url 'https://maven.oracle.com' // Oracle Maven Repository
+		credentials {
+			username = 'your-oracle-username' // Oracle 계정
+			password = 'your-oracle-password' // Oracle 계정 비밀번호
+		}
+	}
 }
 
 dependencies {
@@ -32,6 +39,8 @@ dependencies {
     
     // MyBatis Spring Boot integration
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.4'
+
+    implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5'
     
     // Lombok for reducing boilerplate code
     compileOnly 'org.projectlombok:lombok'
@@ -52,7 +61,6 @@ dependencies {
     // JUnit 5 test runtime support
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
-
 
 tasks.named('test') {
 	useJUnitPlatform()

@@ -9,5 +9,5 @@ public class HomeController {
     public String index() {
         System.out.println("HomeController.index");
         return "index";
-    }
+    } 
 }

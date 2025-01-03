@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "PasswordEncryptor",
+            "request": "launch",
+            "mainClass": "com.nyc.boards.service.PasswordEncryptor",
+            "projectName": "boards"
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-BoardsApplication<boards>",
             "request": "launch",
             "cwd": "${workspaceFolder}",

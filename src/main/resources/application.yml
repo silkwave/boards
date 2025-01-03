@@ -14,7 +14,7 @@ spring:
     driver-class-name: oracle.jdbc.OracleDriver
     url: jdbc:oracle:thin:@//127.0.0.1:1521/ORCL
     username: docker
-    password: docker123
+    password: ENC(e0RkhL8qEaVissFWEH9ihubfgS9ZLUwm0n6pLKG7r0e1NX5bb/JioOaf/6v2D7OZ)
     hikari:
       connection-timeout: 15000
       maximum-pool-size: 10
