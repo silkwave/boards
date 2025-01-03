@@ -4,10 +4,9 @@
 <mapper namespace="Board">
 
     <!-- Insert a board -->
-
     <insert id="save" parameterType="com.nyc.boards.dto.BoardDTO">
-        INSERT INTO board_table (boardTitle, boardWriter, boardPass, boardContents, fileAttached)
-        VALUES (#{boardTitle}, #{boardWriter}, #{boardPass}, #{boardContents}, #{fileAttached})
+        INSERT INTO board_table (id , boardTitle, boardWriter, boardPass, boardContents, fileAttached)
+        VALUES (#{id} , #{boardTitle}, #{boardWriter}, #{boardPass}, #{boardContents}, #{fileAttached})
     </insert>
 
     <!-- Select all boards -->
@@ -31,7 +30,6 @@
         WHERE id = #{id}
     </select>
 
-
     <!-- Update board details -->
     <update id="update" parameterType="com.nyc.boards.dto.BoardDTO">
         UPDATE board_table 
@@ -45,7 +43,7 @@
     </delete>
 
     <!-- Insert a file for a board -->
-    <insert id="saveFile" parameterType="com.nyc.boards.dto.BoardFileDTO" useGeneratedKeys="true" keyProperty="id"> 
+    <insert id="saveFile" parameterType="com.nyc.boards.dto.BoardFileDTO"> 
         INSERT INTO board_file_table (originalFileName, storedFileName, boardId) 
         VALUES (#{originalFileName}, #{storedFileName}, #{boardId})
     </insert>
@@ -57,5 +55,14 @@
         WHERE boardId = #{id}
     </select>
 
+    <!-- Select the next value of the sequence DOCKER.BOARD_TABLE_SEQ -->
+    <select id="getNextBoardSeq" resultType="Long">
+        SELECT DOCKER.BOARD_TABLE_SEQ.NEXTVAL FROM DUAL
+    </select>
+
+    <!-- Select the current value of the sequence DOCKER.BOARD_TABLE_SEQ -->
+    <select id="getCurrentBoardSeq" resultType="Long">
+        SELECT DOCKER.BOARD_TABLE_SEQ.CURRVAL FROM DUAL
+    </select>
+
 </mapper>
- 

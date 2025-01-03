@@ -10,6 +10,12 @@ server:
 spring:
   application:
     name: boards
+  servlet:
+    multipart:
+      location: /home/silkwave/apps/boards/spring_upload_files
+      max-file-size: 10MB           # Maximum file size per upload
+      max-request-size: 10MB        # Maximum size of the entire request
+      file-size-threshold: 2KB      # Size threshold after which files are written to disk
   datasource:
     driver-class-name: oracle.jdbc.OracleDriver
     url: jdbc:oracle:thin:@//127.0.0.1:1521/ORCL
@@ -42,3 +48,6 @@ jasypt:
   encryptor:
     password: mySecretKey
     algorithm: PBEWithHMACSHA512AndAES_256
+
+# 파일 업로드 설정
+

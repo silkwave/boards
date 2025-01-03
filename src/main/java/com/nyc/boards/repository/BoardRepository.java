@@ -46,4 +46,14 @@ public class BoardRepository {
     public List<BoardFileDTO> findFile(Long id) {
         return sql.selectList("Board.findFile", id);
     }
+
+    // Get the current value of the sequence DOCKER.BOARD_TABLE_SEQ
+    public Long getCurrentBoardSeq() {
+        return sql.selectOne("Board.getCurrentBoardSeq");
+    }
+
+    // Get the next value of the sequence DOCKER.BOARD_TABLE_SEQ (NEWLY ADDED)
+    public Long getNextBoardSeq() {
+        return sql.selectOne("Board.getNextBoardSeq");
+    }
 }
