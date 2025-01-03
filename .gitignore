@@ -2,8 +2,13 @@ HELP.md
 .gradle
 build/
 bin/
-spring_upload_files/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
 !**/src/main/**/bin/
+# 모든 파일 무시
+spring_upload_files/*
+# 디렉터리는 추적
+!spring_upload_files/
+# 디렉터리 내부의 .gitignore 파일 허용
+!spring_upload_files/.gitignore
