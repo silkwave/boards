@@ -1,6 +1,8 @@
 HELP.md
 .gradle
 build/
+bin/
+spring_upload_files/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
