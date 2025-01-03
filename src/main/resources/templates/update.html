@@ -53,6 +53,10 @@
         input[type="button"]:hover {
             background-color: #0056b3;
         }
+        .error-message {
+            color: red;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -66,19 +70,35 @@
             <label>title: <input type="text" name="boardTitle" th:value="${board.boardTitle}"></label>
             <label>pass: <input type="text" name="boardPass" id="board-pass"></label>
             <label>contents: <textarea name="boardContents" cols="30" rows="10" th:text="${board.boardContents}"></textarea></label>
+            <div id="error-message" class="error-message" style="display:none;">비밀번호가 틀립니다!!</div>
             <input type="button" value="수정" onclick="board_update()">
         </form>
     </main>
+
+    <!-- Injecting Thymeleaf value as a data attribute -->
+    <script th:inline="javascript">
+        document.addEventListener("DOMContentLoaded", () => {
+            // Use the correct Thymeleaf syntax for injecting values into JavaScript
+            const passDB = /*[[${board.boardPass}]]*/ 'defaultPassword'; // Correct way of injecting
+
+            const board_update = () => {
+                const boardPass = document.getElementById("board-pass").value;
+                const errorMessage = document.getElementById("error-message");
+    
+                // Log the values to the console
+                console.log("boardPass:", boardPass);
+                console.log("passDB:", passDB);
+    
+                if (boardPass === passDB) {
+                    updateForm.submit();
+                } else {
+                    errorMessage.style.display = "block"; // Show the error message
+                }
+            };
+    
+            // Attach the event to the button
+            document.querySelector("input[type='button']").addEventListener("click", board_update);
+        });
+    </script>
 </body>
-<script th:inline="javascript">
-    const board_update = () => {
-        const boardPass = document.getElementById("board-pass").value;
-        const passDB = "[[${board.boardPass}]]";
-        if (boardPass == passDB) {
-            updateForm.submit();
-        } else {
-            alert("비밀번호가 틀립니다!!");
-        }
-    }
-</script>
 </html>

@@ -34,6 +34,7 @@ public class GlobalExceptionHandler {
         return "error";
     }
 
+
     @ExceptionHandler(NumberFormatException.class)
     public String handleNumberFormatException(NumberFormatException e, Model model) {
         log.error("Number format exception: ", e);

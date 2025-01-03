@@ -1,6 +1,5 @@
 package com.nyc.boards.dto;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -8,7 +7,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-@Data
 @Getter
 @Setter
 @ToString(exclude = "boardFile") // boardFile은 출력에서 제외

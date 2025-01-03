@@ -92,14 +92,17 @@
     </main>
 </body>
 <script th:inline="javascript">
+    const boardId = /*[[${board.id}]]*/ // Thymeleaf expression for board id
+    console.log(boardId); // Output to the console
+    
     const listReq = () => {
         location.href = "/list";
     }
     const updateReq = () => {
-        location.href = `/update/[[${board.id}]]`;
+        location.href = `/update/${boardId}`; // Make sure board.id is properly formatted
     }
     const deleteReq = () => {
-        location.href = `/delete/[[${board.id}]]`;
+        location.href = `/delete/${boardId}`; // Same here
     }
 </script>
 </html>
