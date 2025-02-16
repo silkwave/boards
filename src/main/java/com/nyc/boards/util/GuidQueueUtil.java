@@ -2,7 +2,7 @@ package com.nyc.boards.util;
 
 public class GuidQueueUtil {
 
-    private static final int QUEUE_SIZE = 1000; // 큐 크기 설정    
+    private static final int QUEUE_SIZE = 10; // 큐 크기 설정    
     // GuidQueue 인스턴스 생성
     private final static GuidQueue guidQueue = GuidQueue.getInstance(QUEUE_SIZE);
 

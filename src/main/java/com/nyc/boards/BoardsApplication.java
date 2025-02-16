@@ -8,7 +8,7 @@ import com.nyc.boards.util.GuidQueue;
 @SpringBootApplication
 public class BoardsApplication {
 
-    private static final int QUEUE_SIZE = 1000; // 큐 크기 설정
+    private static final int QUEUE_SIZE = 10; // 큐 크기 설정
     public static final GuidQueue guidQueue = GuidQueue.getInstance(QUEUE_SIZE); // 싱글톤 GUID 큐
 
     public static void main(String[] args) {
