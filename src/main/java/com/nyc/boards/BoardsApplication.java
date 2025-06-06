@@ -16,6 +16,8 @@ public class BoardsApplication {
         startGuidProducerThread();
     }
 
+
+    
     private static void startGuidProducerThread() {
         Thread producerThread = new Thread(() -> {
             try {

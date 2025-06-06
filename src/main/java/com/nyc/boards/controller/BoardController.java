@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.validation.annotation.Validated;
 
 import java.io.IOException;
@@ -23,6 +24,12 @@ import java.util.List;
 public class BoardController {
 
     private final BoardService boardService;
+
+    // favicon.ico 요청을 처리하지 않도록 처리
+    @RequestMapping("favicon.ico")
+    public void returnNoFavicon() {
+        log.info("returnNoFavicon {}");
+    }    
 
     @GetMapping("/save")
     public String save() {
