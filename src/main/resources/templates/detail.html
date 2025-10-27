@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>detail</title>
@@ -52,57 +52,94 @@
         <h2>게시글 상세</h2>
     </header>
     <main>
-        <table>
+        <table id="detail-table">
             <tr>
                 <th>id</th>
-                <td th:text="${board.id}"></td>
+                <td id="board-id"></td>
             </tr>
             <tr>
                 <th>title</th>
-                <td th:text="${board.boardTitle}"></td>
+                <td id="board-title"></td>
             </tr>
             <tr>
                 <th>writer</th>
-                <td th:text="${board.boardWriter}"></td>
+                <td id="board-writer"></td>
             </tr>
             <tr>
                 <th>date</th>
-                <td th:text="${board.createdAt}"></td>
+                <td id="board-createdAt"></td>
             </tr>
             <tr>
                 <th>hits</th>
-                <td th:text="${board.boardHits}"></td>
+                <td id="board-hits"></td>
             </tr>
             <tr>
                 <th>contents</th>
-                <td th:text="${board.boardContents}"></td>
+                <td id="board-contents"></td>
             </tr>
-            <tr th:if="${board.fileAttached == 1}">
+            <tr id="image-row" style="display: none;">
                 <th>image</th>
-                <td th:each="boardFile: ${boardFileList}">
-                    <img th:src="@{|/upload/${boardFile.storedFileName}|}" alt="" width="200" height="200">
-                </td>
+                <td id="image-container"></td>
             </tr>
         </table>
         <div>
-            <button onclick="listReq()">목록</button>
-            <button onclick="updateReq()">수정</button>
-            <button onclick="deleteReq()">삭제</button>
+            <button id="list-btn">목록</button>
+            <button id="update-btn">수정</button>
+            <button id="delete-btn">삭제</button>
         </div>
     </main>
 </body>
-<script th:inline="javascript">
-    const boardId = /*[[${board.id}]]*/ // Thymeleaf expression for board id
-    console.log(boardId); // Output to the console
-    
-    const listReq = () => {
-        location.href = "/list";
-    }
-    const updateReq = () => {
-        location.href = `/update/${boardId}`; // Make sure board.id is properly formatted
-    }
-    const deleteReq = () => {
-        location.href = `/delete/${boardId}`; // Same here
-    }
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const boardId = window.location.pathname.split('/').pop();
+
+        // Fetch and display board details
+        fetch(`/api/boards/${boardId}`)
+            .then(response => response.json())
+            .then(board => {
+                document.getElementById('board-id').textContent = board.id;
+                document.getElementById('board-title').textContent = board.boardTitle;
+                document.getElementById('board-writer').textContent = board.boardWriter;
+                document.getElementById('board-createdAt').textContent = board.createdAt;
+                document.getElementById('board-hits').textContent = board.boardHits;
+                document.getElementById('board-contents').textContent = board.boardContents;
+
+                if (board.fileAttached === 1) {
+                    document.getElementById('image-row').style.display = 'table-row';
+                    // Fetch and display files
+                    fetch(`/api/boards/${boardId}/files`)
+                        .then(res => res.json())
+                        .then(files => {
+                            const imageContainer = document.getElementById('image-container');
+                            files.forEach(file => {
+                                const img = document.createElement('img');
+                                img.src = `/upload/${file.storedFileName}`;
+                                img.alt = file.originalFileName;
+                                img.width = 200;
+                                img.height = 200;
+                                imageContainer.appendChild(img);
+                            });
+                        });
+                }
+            })
+            .catch(error => console.error('Error fetching board details:', error));
+
+        // Button event listeners
+        document.getElementById('list-btn').addEventListener('click', () => location.href = '/list');
+        document.getElementById('update-btn').addEventListener('click', () => location.href = `/update/${boardId}`);
+        document.getElementById('delete-btn').addEventListener('click', () => {
+            if (confirm('정말로 삭제하시겠습니까?')) {
+                fetch(`/api/boards/${boardId}`, { method: 'DELETE' })
+                    .then(response => {
+                        if (response.ok) {
+                            alert('삭제되었습니다.');
+                            location.href = '/list';
+                        } else {
+                            alert('삭제에 실패했습니다.');
+                        }
+                    });
+            }
+        });
+    });
 </script>
 </html>

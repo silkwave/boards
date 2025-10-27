@@ -17,23 +17,27 @@ public class BoardService {
     private final BoardRepository boardRepository;
 
     // 게시물 저장 메서드
-    public void save(BoardDTO boardDTO) throws IOException {
+    public BoardDTO save(BoardDTO boardDTO) throws IOException {
         // 파일이 첨부되지 않은 경우
         if (boardDTO.getBoardFile() == null || boardDTO.getBoardFile().isEmpty() || boardDTO.getBoardFile().get(0).isEmpty()) {
             System.out.println("===================> 파일 없다.");
             boardDTO.setFileAttached(Long.valueOf(0));  // 파일이 없으므로 fileAttached를 0으로 설정
     
             // 현재 게시물 시퀀스 가져오기
-            Long nextSeq = boardRepository.getNextBoardSeq();
-            boardDTO.setId(nextSeq);              
+            if (boardDTO.getId() == null) {
+                Long nextSeq = boardRepository.getNextBoardSeq();
+                boardDTO.setId(nextSeq);
+            }
 
             boardRepository.save(boardDTO);  // 게시물 저장
         } else {
             System.out.println(" ===================> 파일 있다.");
     
             // 현재 게시물 시퀀스 가져오기
-            Long nextSeq = boardRepository.getNextBoardSeq();
-            boardDTO.setId(nextSeq);  
+            if (boardDTO.getId() == null) {
+                Long nextSeq = boardRepository.getNextBoardSeq();
+                boardDTO.setId(nextSeq);
+            }
 
             boardDTO.setFileAttached(Long.valueOf(1));  // 파일이 첨부된 경우 fileAttached를 1로 설정
             
@@ -67,6 +71,7 @@ public class BoardService {
                 boardRepository.saveFile(boardFileDTO);
             }
         }
+        return boardDTO;
     }
     
     // 모든 게시물 조회

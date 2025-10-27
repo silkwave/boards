@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Board List</title>
@@ -60,27 +60,49 @@
         <a href="/save">글쓰기</a>
     </header>
     <main>
-        <table>
-            <tr>
-                <th>번호</th>
-                <th>제목</th>
-                <th>작성자</th>
-                <th>작성시간</th>
-                <th>조회수</th>
-            </tr>
-            <tr th:each="board: ${boardList}">
-                <td th:text="${board.id}"></td>
-                <td>
-                    <a th:text="${board.boardTitle}" th:href="@{|/${board.id}|}"></a>
-                </td>
-                <td th:text="${board.boardWriter}"></td>
-                <td th:text="${board.createdAt}"></td>
-                <td th:text="${board.boardHits}"></td>
-            </tr>
-            <tr th:if="${#lists.isEmpty(boardList)}">
-                <td colspan="5" style="text-align: center;">No boards available</td>
-            </tr>
+        <table id="board-table">
+            <thead>
+                <tr>
+                    <th>번호</th>
+                    <th>제목</th>
+                    <th>작성자</th>
+                    <th>작성시간</th>
+                    <th>조회수</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- JavaScript will populate this area -->
+            </tbody>
         </table>
     </main>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const tableBody = document.querySelector("#board-table tbody");
+
+            fetch('/api/boards')
+                .then(response => response.json())
+                .then(boards => {
+                    tableBody.innerHTML = ''; // Clear existing rows
+                    if (boards.length === 0) {
+                        tableBody.innerHTML = '<tr><td colspan="5" style="text-align: center;">No boards available</td></tr>';
+                        return;
+                    }
+
+                    boards.forEach(board => {
+                        const row = `
+                            <tr>
+                                <td>${board.id}</td>
+                                <td><a href="/${board.id}">${board.boardTitle}</a></td>
+                                <td>${board.boardWriter}</td>
+                                <td>${board.createdAt}</td>
+                                <td>${board.boardHits}</td>
+                            </tr>
+                        `;
+                        tableBody.insertAdjacentHTML('beforeend', row);
+                    });
+                })
+                .catch(error => console.error('Error fetching boards:', error));
+        });
+    </script>
 </body>
 </html>

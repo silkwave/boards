@@ -63,14 +63,38 @@
         <h2>글 작성</h2>
     </header>
     <main>
-        <form action="/save" method="post" enctype="multipart/form-data">
+        <form name="saveForm" enctype="multipart/form-data">
             <label for="boardTitle">제목: <input type="text" id="boardTitle" name="boardTitle" required></label>
             <label for="boardWriter">작성자: <input type="text" id="boardWriter" name="boardWriter" required></label>
             <label for="boardPass">비밀번호: <input type="password" id="boardPass" name="boardPass" required></label>
-            <label for="boardContents">내용: <textarea id="boardContents" name="boardContents" cols="30" rows="10" required></textarea></label>
+            <label for="boardContents">내용: <textarea id="boardContents" name="boardContents" cols="30" rows="10" required style="ime-mode: active;"></textarea></label>
             <label for="boardFile">파일: <input type="file" id="boardFile" name="boardFile" multiple></label>
-            <input type="submit" value="작성">
+            <input type="button" value="작성">
         </form>
     </main>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const saveForm = document.forms.saveForm;
+            const saveButton = document.querySelector("input[type='button']");
+
+            saveButton.addEventListener('click', () => {
+                const formData = new FormData(saveForm);
+
+                fetch('/api/boards', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => {
+                    if (response.ok) {
+                        alert('작성이 완료되었습니다.');
+                        window.location.href = '/list';
+                    } else {
+                        throw new Error('작성에 실패했습니다.');
+                    }
+                })
+                .catch(error => alert(error.message));
+            });
+        });
+    </script>
 </body>
 </html>

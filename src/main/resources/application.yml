@@ -12,7 +12,7 @@ spring:
       enabled: false # favicon 자동 처리 비활성화
   servlet:
     multipart:
-      location: /home/silkwave/apps/boards/spring_upload_files  # 파일 업로드 위치 설정
+      location: /home/silkw/apps/boards/spring_upload_files  # 파일 업로드 위치 설정
       max-file-size: 10MB           # 최대 파일 크기 (각 파일)
       max-request-size: 10MB        # 전체 요청 크기 제한
       file-size-threshold: 2KB      # 디스크에 파일을 쓸지 여부를 결정하는 임계값
