@@ -23,6 +23,7 @@ import java.util.List;
 public class BoardController {
 
     private final BoardService boardService;
+    private final GuidQueueUtil guidQueueUtil;
 
 
     @GetMapping("/save")
@@ -40,9 +41,9 @@ public class BoardController {
     @GetMapping("/list")
     public String findAll(Model model) throws InterruptedException {
 
-        String GUID = GuidQueueUtil.processGUIDs(); // 3개의 GUID를 생성하여 출력
+         String GUID = guidQueueUtil.getGUID();
 
-        System.out.println(Thread.currentThread().getName() + " GUID: " + GUID); // 현재 스레드 이름과 함께 생성된 GUID 출력        
+        log.info("BoardController findAll GUID: {}", GUID);
 
         List<BoardDTO> boardDTOList = boardService.findAll();
         log.info(" @GetMapping(\"/list\") : {}", boardDTOList);
