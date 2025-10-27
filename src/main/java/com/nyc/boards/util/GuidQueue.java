@@ -20,8 +20,8 @@ import org.springframework.stereotype.Component;
 public class GuidQueue {
 
     /** Base 26 변환에 사용될 문자 집합 */
-    // 0-9, A-P (26자)
-    private static final char[] HEX_CHAR = "0123456789ABCDEFGHIJKLMNOP".toCharArray();
+    // A-Z (26자)
+    private static final char[] HEX_CHAR = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
 
     /** Kubernetes Pod 환경에서 각 Pod를 고유하게 식별하기 위한 값 */
     private static final String POD_UNIQUE_IDENTIFIER = PodIdentifierGenerator.generate();
@@ -32,7 +32,7 @@ public class GuidQueue {
     /** GUID 시퀀스 번호를 생성하기 위한 원자적 카운터 */
     private static final AtomicLong atomicCounter = new AtomicLong(0);
 
-    private static final int QUEUE_SIZE = 100; // 큐의 최대 크기
+    private static final int QUEUE_SIZE = 1000; // 큐의 최대 크기
     private static final long COUNTER_RESET_THRESHOLD = 10_000_000L; // 시퀀스 카운터가 초기화되는 임계값
     private static final int BASE26_SEQUENCE_LENGTH = 5; // Base26으로 변환된 시퀀스 번호의 길이
 
@@ -114,7 +114,7 @@ public class GuidQueue {
      * 큐에서 GUID를 가져와 최종 형식으로 포맷팅하여 반환합니다.
      * 큐가 비어있으면 새로운 GUID가 생성될 때까지 대기합니다.
      * 
-     * @return 최종 포맷팅된 32자리 GUID
+     * @return 최종 포맷팅된 30자리 GUID
      * @throws InterruptedException 스레드가 대기 중 중단될 경우
      */
     public String getGUID() throws InterruptedException { // 최종 30자리 GUID 반환
@@ -122,7 +122,7 @@ public class GuidQueue {
         String uniquePart = queue.take(); // POD_UNIQUE_IDENTIFIER(11) + 시퀀스(5) = 16자
         // 최종 GUID: [현재시간(14)] + [고유식별부분(16)] = 30자
         String finalGuid = getCurrentDate() + uniquePart;
-        // 최종 GUID를 32자리로 포맷팅하여 반환
+        // 최종 GUID를 30자리로 포맷팅하여 반환
         return getFormatGUID(finalGuid);
     }
 
@@ -192,7 +192,7 @@ public class GuidQueue {
             long hash = Math.abs((hostname + randomId).hashCode());
             String base26Hash = toBase26(hash);
 
-            // 4. 13자리로 고정
+            // 4. 11자리로 고정
             String identifier = (base26Hash + randomId).replace("-", ""); // 하이픈 제거
             if (identifier.length() > IDENTIFIER_LENGTH) {
                 identifier = identifier.substring(0, IDENTIFIER_LENGTH);
