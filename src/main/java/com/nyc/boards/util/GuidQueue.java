@@ -22,31 +22,44 @@ public class GuidQueue {
 
     // Singleton 인스턴스
     private static volatile GuidQueue instance;
+    private static final int QUEUE_SIZE = 10; // 큐 크기 설정
 
     /**
      * 생성자: 큐 크기를 지정하여 인스턴스를 초기화
-     * 
-     * @param queueSize 큐의 크기
      */
-    private GuidQueue(int queueSize) {
-        this.queue = new LinkedBlockingQueue<>(queueSize);
+    private GuidQueue() {
+        this.queue = new LinkedBlockingQueue<>(QUEUE_SIZE);
     }
 
     /**
      * Singleton 인스턴스를 반환하는 메소드
      * 
-     * @param queueSize 큐의 크기
      * @return GuidQueue 인스턴스
      */
-    public static GuidQueue getInstance(int queueSize) {
+    public static GuidQueue getInstance() {
         if (instance == null) {
             synchronized (GuidQueue.class) {
                 if (instance == null) {
-                    instance = new GuidQueue(queueSize);
+                    instance = new GuidQueue();
+                    instance.startGuidProducerThread();
                 }
             }
         }
         return instance;
+    }
+
+    private void startGuidProducerThread() {
+        Thread producerThread = new Thread(() -> {
+            try {
+                makeGuidSeq(); // GUID 생산
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt(); // 예외 발생 시 인터럽트 상태 복구
+                System.err.println("GUID 생성 중 인터럽트 발생: " + e.getMessage());
+            }
+        });
+
+        producerThread.setDaemon(true); // 애플리케이션 종료 시 자동 종료되도록 데몬 스레드 설정
+        producerThread.start();
     }
 
     /**

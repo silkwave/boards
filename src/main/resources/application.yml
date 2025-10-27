@@ -7,6 +7,9 @@ server:
 spring:
   application:
     name: boards  # 애플리케이션 이름 설정
+  mvc:
+    favicon:
+      enabled: false # favicon 자동 처리 비활성화
   servlet:
     multipart:
       location: /home/silkwave/apps/boards/spring_upload_files  # 파일 업로드 위치 설정
